@@ -1,7 +1,8 @@
 from django import forms
-from Kwitter.kweets.models import Kweet
+from Kwitter.kwitterusers.models import KwitterUser
 
-class NewKweetForm(forms.Modelsform):
+
+class NewUserForm(forms.Modelsform):
     class Meta:
-        model = Kweet
-        fields = ['message_input']
+        model = KwitterUser
+        fields = ['user']

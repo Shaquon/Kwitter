@@ -7,19 +7,15 @@ from Kwitter.kwitterusers.models import KwitterUser
 from Kwitter.kwitterusers.forms import AddUserForm
 
 
-def index(request):
-    pass
+# def index_view(request):
+#     html = 'index.html'
+#     user=request.user
+#     kwitteruser=KwitterUser.objects.get(user=user)
 
 
-def add_kweet(request):
-    pass
+def add_user_view(request):
+    html = 'newuser.html'
+    logged_in_user = KwitterUser.objects.get(user=request.user)
 
-
-def add_like(request):
-
-
-def remove_like(request):
-    pass
-
-def kweet(request):
-    pass
+    if request.method == "POST":
+        form = Kweet
