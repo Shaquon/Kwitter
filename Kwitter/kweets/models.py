@@ -11,3 +11,6 @@ class Kweet(models.Model):
 
     def __self__(self):
         return self.message_body
+
+
+

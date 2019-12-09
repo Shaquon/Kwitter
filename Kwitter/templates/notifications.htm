@@ -1,0 +1,16 @@
+<a href="/">HOMEPAGE</a>
+<h1>Notification Page</h1>
+<ul>
+  {% for notification in new_notifications %}
+  <li>
+    {{notification.tweet.date_posted}} -
+    <a href="/user/{{notification.tweet.user.id}}">
+      {{notification.tweet.user}}
+    </a>
+    -
+    <a href="/tweet/{{notification.tweet.id}}">
+      {{notification}}
+    </a>
+  </li>
+  {% endfor %}
+</ul>

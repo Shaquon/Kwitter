@@ -16,8 +16,29 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from Kwitter.authentication.urls import urlpatterns as authurls
+from Kwitter.kweets.urls import urlspatterns as kweeturls
+from Kwitter.kwitterusers.urls import urlpatterns as kwitteruserurls
+from Kwitter.notifications.urls import urlpatterns as notificationurls
 
+from Kwitter.kwitterusers.models import KwitterUser
+from Kwitter.kweets.models import Kweet
+from Kwitter.notifications.models import Notifications
+
+
+admin.site.register(KwitterUser)
+admin.site.register(Kweet)
+admin.site.register(Notifications)
 
 urlpatterns = [
-    path('admin/', admin.site.urls)
+    path('admin/', admin.site.urls),
 ]
+
+
+urlpatterns += authurls
+
+urlpatterns += notificationurls
+
+urlpatterns += kweeturls
+
+urlpatterns += kwitteruserurls

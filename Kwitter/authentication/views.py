@@ -3,12 +3,13 @@ from django.contrib.auth import login, logout, authenticate
 from Kwitter.kwitterusers.models import KwitterUser
 from Kwitter.authentication.forms import LoginForm
 from Kwitter.kwitterusers.forms import NewUserForm
+from django.contrib.auth.models import User
 # from django.contrib.auth.decorators import login_required
 
 
 def login_view(request):
 
-    html = 'generic_form.html'
+    html = 'generic_form.htm'
 
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -29,7 +30,7 @@ def login_view(request):
 
 
 def register_user_view(request):
-    html = 'generic_html'
+    html = 'generic_htm'
 
     if request.method == "POST":
         form = NewUserForm()
