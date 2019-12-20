@@ -1,0 +1,48 @@
+<div style="background-color:rgb(202, 235, 221);">
+<h2>
+  <a href="/userslist/">User List</a>
+  <a href="/logout/">Logout</a>
+<a style="margin-left: 1350px" href="/notifications/">Notifications: {{notification_count}}</a>
+</h2>
+<center><h1 style="font-size: 40px;">Kwitter!</h1></center>
+<h1 style="border-bottom: 1px solid black"></h1>
+</div>
+</nav>
+
+<div style="display: flex; justify-content: space-evenly">
+<h2>
+  My Profile:
+  <a href="/user/{{kwitteruser.id}}/"> {{user}}</a>
+</h2>
+
+<h2>Follower Count: {{follow_count}}</h2>
+</div>
+<hr>
+<div style="display:flex; flex-direction: column; align-items: center; align-content: space-evenly">
+<ul style="list-style-type: none;">
+  {% for followee in followed %}
+  <li>
+    <a href="/user/{{followee.id}}/">
+      {{followee.user}}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+
+<h2><a href="/addkweet/">New Kweet</a></h2>
+<h2>Kweet List</h2>
+<ul style="list-style-type: none;">
+  {% for kwee in kweets %}
+  <li style="display: flex; flex-direction: column; align-items: center; height: 150px; width: 200px;border: 1px solid black; margin: 10px; padding: 10px">
+    <a href="/user/{{kwee.user.id}}" style="font-size: 22px; padding: 10px; margin-bottom: 10px; border-bottom: 1px solid black">
+      {{kwee.user}}
+    </a>
+  
+    <a href="/kweetdetail/{{kwee.id}}" style="padding: 10px">
+      {{kwee.message_input}}
+    </a>
+  </li>
+
+  {% endfor %}
+</ul>
+</div>

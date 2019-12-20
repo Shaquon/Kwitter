@@ -1,0 +1,19 @@
+<div style="background-color:rgb(202, 235, 221);">
+<h2><a href="/home/">Home</a></h2>
+<h1>Notification Page</h1>
+
+</div>
+<ul>
+  {% for notification in new_notifications %}
+  <li>
+    {{notification.kweet.date_posted}} -
+    <a href="/user/{{notification.kweet.user.id}}/">
+      {{notification.kweet.user}}
+    </a>
+    -
+    <a href="/kweetdetail/{{notification.kweet.id}}/">
+      {{notification}}
+    </a>
+  </li>
+  {% endfor %}
+</ul>

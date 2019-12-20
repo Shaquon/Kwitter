@@ -1,0 +1,27 @@
+<div style="background-color:rgb(202, 235, 221);">
+<h2><a href="/home/">Home</a></h2>
+<h1 style="border-bottom: 1px solid black">{{kwitteruser}}'s Page</h1>
+</div>
+<div style="display:flex; flex-direction: column; align-items: center; align-content: space-evenly">
+<h2>Followers: {{followcount}}</h2>
+<h3>Has tweeted {{kweetcount}} times</h3>
+<ul>
+  {% for kweet in kweets %}
+  <li style="list-style-type: none; display: flex; flex-direction: column; align-items: center; height: 75px; width: 250px;border: 1px solid black; margin: 10px; padding: 10px">
+    <a href="/kweetdetail/{{kweet.id}}">
+      {{kweet.message_input}}
+    </a>
+    {{kweet.date_posted}}
+  </li>
+  {% endfor %}
+</ul>
+{% if not is_my_user_page %} 
+
+  {% if is_followed %}
+    <a href="/unfollow/{{kwitteruser.id}}">Unfollow</a>
+  {% else %}
+    <a href="/follow/{{kwitteruser.id}}">Follow</a>
+  {% endif %} 
+
+{% endif %}
+</div>
