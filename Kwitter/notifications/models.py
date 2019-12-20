@@ -4,7 +4,9 @@ from Kwitter.kweets.models import Kweet
 
 
 class Notifications(models.Model):
-    kweet = models.ForeignKey(Kweet, related_name='notification_kweet',on_delete=models.CASCADE)
+    kweet = models.ForeignKey(
+        Kweet, related_name='notification_kweet',
+        on_delete=models.CASCADE)
     kwitter_user = models.ForeignKey(KwitterUser, related_name='notification_user', on_delete=models.CASCADE)
     seen = models.BooleanField(default=False)
 

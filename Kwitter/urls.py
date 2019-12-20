@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 from Kwitter.authentication.urls import urlpatterns as authurls
-from Kwitter.kweets.urls import urlspatterns as kweeturls
+from Kwitter.kweets.urls import urlpatterns as kweeturls
 from Kwitter.kwitterusers.urls import urlpatterns as kwitteruserurls
 from Kwitter.notifications.urls import urlpatterns as notificationurls
 

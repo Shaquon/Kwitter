@@ -4,6 +4,7 @@ from Kwitter.kwitterusers.models import KwitterUser
 from Kwitter.notifications.models import Notifications
 
 
+@login_required
 def notification_view(request):
     html = "notifications.htm"
 
@@ -11,9 +12,11 @@ def notification_view(request):
 
     kwitteruser = KwitterUser.objects.get(user=user)
 
-    notifications = Notifications.objects.filter(receiver=kwitteruser)
+    notifications = Notifications.objects.filter(kwitter_user=kwitteruser)
 
-    new_notifications = [notification for notification in notifications if notification.not_viewed][::-1]
+    new_notifications = [
+        notification for notification in notifications
+        if notification.not_viewed][::-1]
 
     for new_notification in new_notifications:
         new_notification.not_viewed = False

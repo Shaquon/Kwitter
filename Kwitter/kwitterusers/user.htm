@@ -1,0 +1,20 @@
+
+<a href="/">HOMEPAGE</a>
+<h1>{{kwitteruser}}</h1>
+<h3>Follows {{follow_count}} users (including self)</h3>
+<h3>Has tweeted {{kweetcount}} times</h3>
+<ul>
+  {% for kweet in kweets %}
+  <li>
+    {{tweet.date_posted}} -
+    <a href="/kweet/{{tweet.id}}">
+      {{tweet}}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% if not is_my_user_page %} {% if is_followed %}
+<a href="/unfollow/{{kwitteruser.id}}">UNFOLLOW</a>
+{% else %}
+<a href="/follow/{{kwitteruser.id}}">FOLLOW</a>
+{% endif %} {% endif %}
