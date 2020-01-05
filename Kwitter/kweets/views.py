@@ -1,5 +1,10 @@
 from django.shortcuts import render, reverse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
+
 from Kwitter.kwitterusers.models import KwitterUser
 from Kwitter.kweets.models import Kweet
 from Kwitter.kweets.forms import AddKweetForm
@@ -8,6 +13,8 @@ from django.contrib.auth.models import User
 from Kwitter.kweets.models import Kweet
 
 import re
+
+# class based views below
 
 
 @login_required
@@ -48,51 +55,48 @@ def index_view(request):
     })
 
 
-@login_required
-def add_kweet_view(request):
-    html = 'generic_form.htm'
+# class based view
+@method_decorator(login_required, name='dispatch')
+class add_kweet_view(CreateView):
+    template_name = 'generic_form.htm'
+    form = AddKweetForm
+    model = Kweet
+    fields = ['message_input']
 
-    if request.method == 'POST':
-        user = request.user
-
-        form = AddKweetForm(request.POST)
-
-        kweet = form.save()
-
-        kwitterUser = KwitterUser.objects.get(user=user)
-        kweet.user = kwitterUser
-        kweet.save()
-
-        message = kweet.message_input
-
-        notified_users = re.findall(r'@(\S*)', message)
-
-        if notified_users:
-            all_users = User.objects.all()
-            all_usernames = [user.username for user in all_users]
-
-            for notified_user in notified_users:
-                if notified_user in all_usernames:
-                    receiver_user = User.objects.get(username=notified_user)
-                    receiver = KwitterUser.objects.get(user=receiver_user)
-                    Notifications.objects.create(
-                        kwitter_user=receiver,
-                        kweet=kweet,
-                        not_viewed=True
-                    )
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = KwitterUser.objects.get(user=self.request.user)
+        self.object.save()
+        create_notification(self.object)
         return HttpResponseRedirect(reverse('home'))
 
-    form = AddKweetForm()
-    return render(request, html, {'form': form})
+
+def create_notification(tweet):
+    notified_users = re.findall(r'@(\S*)', tweet.message_input)
+    all_users = User.objects.all()
+    all_usernames = [user.username for user in all_users]
+    for notified_user in notified_users:
+        if notified_user in all_usernames:
+            receiver_user = User.objects.get(username=notified_user)
+            receiver = KwitterUser.objects.get(user=receiver_user)
+            Notifications.objects.create(
+                kwitter_user=receiver,
+                kweet=tweet,
+                not_viewed=True
+            )
 
 
-@login_required
-def kweet_detail_view(request, id):
-    html = 'kweet_detail.htm'
+# class based view
+class kweet_detail_view(DetailView):
+    template_name = 'kweet_detail.html'
+    model = Kweet
 
-    kweet = Kweet.objects.get(pk=id)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # kweet = Kweet.objects.get(pk=id)
+        return context
 
-    return render(request, html, {'kweet': kweet})
+
 
 
 # def add_like_view(request):
